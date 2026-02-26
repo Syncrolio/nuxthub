@@ -28,7 +28,7 @@ export * from "./types/index";
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: "@nuxthub/core",
+    name: "@syncrolio/nuxthub",
     configKey: "hub",
     version,
     docs: "https://hub.nuxt.com",
