@@ -108,7 +108,7 @@ export const kv = createStorage({
 `
 
   // Write to node_modules/@nuxthub/kv/ for direct imports (workflow compatibility)
-  const physicalKvDir = join(nuxt.options.rootDir, 'node_modules', '@nuxthub', 'kv')
+  const physicalKvDir = join(hub.projectDir, 'node_modules', '@nuxthub', 'kv')
   await mkdir(physicalKvDir, { recursive: true })
 
   // Write kv.mjs to node_modules/@nuxthub/kv/

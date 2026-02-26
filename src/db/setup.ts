@@ -267,7 +267,7 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
       await buildDatabaseSchema(nuxt.options.buildDir, { relativeDir: nuxt.options.rootDir, alias: nuxt.options.alias })
 
       // Also copy to node_modules/@nuxthub/db/ for workflow compatibility
-      const physicalDbDir = join(nuxt.options.rootDir, 'node_modules', '@nuxthub', 'db')
+      const physicalDbDir = join(hub.projectDir, 'node_modules', '@nuxthub', 'db')
       try {
         await copyFile(join(nuxt.options.buildDir, 'hub/db/schema.mjs'), join(physicalDbDir, 'schema.mjs'))
         await copyFile(join(nuxt.options.buildDir, 'hub/db/schema.d.mts'), join(physicalDbDir, 'schema.d.mts'))
@@ -290,7 +290,7 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
     await buildDatabaseSchema(nuxt.options.buildDir, { relativeDir: nuxt.options.rootDir, alias: nuxt.options.alias })
 
     // Then copy to node_modules/@nuxthub/db/ for workflow compatibility
-    const physicalDbDir = join(nuxt.options.rootDir, 'node_modules', '@nuxthub', 'db')
+    const physicalDbDir = join(hub.projectDir, 'node_modules', '@nuxthub', 'db')
     await mkdir(physicalDbDir, { recursive: true })
 
     try {
@@ -584,7 +584,7 @@ ${hasReplicas
   }
 
   // Write to node_modules/@nuxthub/db/ for direct imports (workflow compatibility)
-  const physicalDbDir = join(nuxt.options.rootDir, 'node_modules', '@nuxthub', 'db')
+  const physicalDbDir = join(hub.projectDir, 'node_modules', '@nuxthub', 'db')
   await mkdir(physicalDbDir, { recursive: true })
 
   // Write db.mjs to node_modules/@nuxthub/db/

@@ -14,6 +14,7 @@
   "homepage": "https://hub.nuxt.com",
   "license": "Apache-2.0",
   "type": "module",
+  "packageManager": "pnpm@10.30.3",
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
@@ -62,7 +63,7 @@
   ],
   "scripts": {
     "prepack": "nuxt-module-build build",
-    "dev:prepare": "nuxt-module-build build --stub && mkdist --src=src/blob/lib --dist=dist/blob/lib -d && mkdist --src=src/db/lib --dist=dist/db/lib -d && nuxt-module-build prepare && nuxi prepare playground",
+    "dev:prepare": "nuxt-module-build build --stub && pnpx mkdist --src=src/blob/lib --dist=dist/blob/lib -d && pnpx mkdist --src=src/db/lib --dist=dist/db/lib -d && nuxt-module-build prepare && nuxi prepare playground",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "docs": "PORT=4000 nuxi dev docs",

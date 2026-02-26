@@ -11,6 +11,7 @@ export interface HubConfig {
   kv: boolean | KVConfig
   dir: string
   hosting: string
+  projectDir: string
 }
 
 export interface ResolvedHubConfig extends HubConfig {

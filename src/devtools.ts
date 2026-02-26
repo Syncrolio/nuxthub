@@ -22,7 +22,7 @@ async function launchDrizzleStudio(nuxt: Nuxt, hub: HubConfig) {
 
   try {
     const { dialect, driver, connection } = dbConfig
-    const dbEntry = resolve(nuxt.options.rootDir, 'node_modules', '@nuxthub', 'db', 'db.mjs')
+    const dbEntry = resolve(hub.projectDir, 'node_modules', '@nuxthub', 'db', 'db.mjs')
     if (!existsSync(dbEntry)) {
       throw new Error(`Cannot find @nuxthub/db at ${dbEntry}. Run \`nuxi prepare\` to generate it.`)
     }

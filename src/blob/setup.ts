@@ -93,7 +93,7 @@ export { ensureBlob } from "@nuxthub/core/blob";
 export const blob = createBlobStorage(createDriver(${JSON.stringify(driverOptions)}));
 `
 
-  const physicalBlobDir = join(nuxt.options.rootDir, 'node_modules', '@nuxthub', 'blob')
+  const physicalBlobDir = join(hub.projectDir, 'node_modules', '@nuxthub', 'blob')
   await mkdir(physicalBlobDir, { recursive: true })
 
   // Write the blob.mjs file
