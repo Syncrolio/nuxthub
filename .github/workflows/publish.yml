@@ -29,7 +29,7 @@ jobs:
           npm version "${BASE_VERSION}-${SHORT_SHA}" --no-git-tag-version
 
       - name: Publish to GitHub Packages
-        run: npm publish --no-git-checks
+        run: npm publish --no-git-checks --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
