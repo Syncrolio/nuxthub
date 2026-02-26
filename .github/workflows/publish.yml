@@ -30,6 +30,11 @@ jobs:
           SHORT_SHA=$(git rev-parse --short HEAD)
           npm version "${BASE_VERSION}-${SHORT_SHA}" --no-git-tag-version
 
+      - name: Prepare environment
+        run: pnpm dev:prepare
+      - name: Build package
+        run: pnpm prepack
+
       - name: Publish to GitHub Packages
         run: npm publish --no-git-checks --tag latest
         env:
