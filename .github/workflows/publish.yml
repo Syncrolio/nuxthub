@@ -21,6 +21,8 @@ jobs:
           node-version: 24
           cache: "pnpm"
       - run: pnpm install
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set version from commit SHA
         run: |
