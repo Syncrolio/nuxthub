@@ -1,4 +1,11 @@
-import { mkdir, copyFile, writeFile, readFile, stat, cp } from "node:fs/promises";
+import {
+  mkdir,
+  copyFile,
+  writeFile,
+  readFile,
+  stat,
+  cp,
+} from "node:fs/promises";
 import chokidar from "chokidar";
 import { glob } from "tinyglobby";
 import { join, resolve as resolveFs, relative, dirname } from "pathe";
@@ -419,7 +426,7 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
     // Fix schema paths under node_modules: tsdown's Node type stripping
     // refuses to process .ts files inside node_modules. Copy them to the
     // build directory and remap the paths.
-    await copyNodeModuleSchemas(nuxt, schemaPaths);
+    // await copyNodeModuleSchemas(nuxt, schemaPaths);
 
     schemaPaths = schemaPaths.filter((path) => {
       const meta = getDatabaseSchemaPathMetadata(path);
@@ -847,7 +854,12 @@ ${
   }
 
   // Write to node_modules/@syncrolio/db/ for direct imports (workflow compatibility)
-  const physicalDbDir = join(hub.projectDir, "node_modules", "@syncrolio", "db");
+  const physicalDbDir = join(
+    hub.projectDir,
+    "node_modules",
+    "@syncrolio",
+    "db",
+  );
   await mkdir(physicalDbDir, { recursive: true });
 
   // Write db.mjs to node_modules/@syncrolio/db/
