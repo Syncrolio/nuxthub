@@ -9,7 +9,7 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
-    "access": "restricted"
+    "access": "public"
   },
   "homepage": "https://hub.nuxt.com",
   "license": "Apache-2.0",
