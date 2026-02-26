@@ -12,6 +12,7 @@ NuxtHub supercharges your Nuxt development workflow so you can focus on shipping
 ## ✨ Key Features
 
 NuxtHub provides optional features to help you build full-stack applications:
+
 - [**SQL database**](https://hub.nuxt.com/docs/database) to store your application's data with [automatic migrations](https://hub.nuxt.com/docs/databas/migrations)
 - [**Files storage**](https://hub.nuxt.com/docs/blob) to store static assets, such as images, videos and more
 - [**Caching system**](https://hub.nuxt.com/docs/cache) for your Nuxt pages, API routes or server functions
@@ -67,14 +68,12 @@ pnpm test:watch
 [MIT](./LICENSE)
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/@nuxthub/core/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/@nuxthub/core
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/@nuxthub/core.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npm.chart.dev/@nuxthub/core
-
-[license-src]: https://img.shields.io/npm/l/@nuxthub/core.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/@nuxthub/core
-
+[npm-version-src]: https://img.shields.io/npm/v/@syncrolio/nuxthub/latest.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-version-href]: https://npmjs.com/package/@syncrolio/nuxthub
+[npm-downloads-src]: https://img.shields.io/npm/dm/@syncrolio/nuxthub.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-downloads-href]: https://npm.chart.dev/@syncrolio/nuxthub
+[license-src]: https://img.shields.io/npm/l/@syncrolio/nuxthub.svg?style=flat&colorA=020420&colorB=00DC82
+[license-href]: https://npmjs.com/package/@syncrolio/nuxthub
 [nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
 [nuxt-href]: https://nuxt.com

@@ -1,6 +1,5 @@
 # Changelog
 
-
 ## v0.10.6
 
 [compare changes](https://github.com/nuxt-hub/core/compare/v0.10.5...v0.10.6)
@@ -195,7 +194,7 @@
 
 ### 🚀 Enhancements
 
-- ⚠️  Make nuxthub multi-vendor ([#693](https://github.com/nuxt-hub/core/pull/693))
+- ⚠️ Make nuxthub multi-vendor ([#693](https://github.com/nuxt-hub/core/pull/693))
 
 ### 📖 Documentation
 
@@ -203,7 +202,7 @@
 
 #### ⚠️ Breaking Changes
 
-- ⚠️  Make nuxthub multi-vendor ([#693](https://github.com/nuxt-hub/core/pull/693))
+- ⚠️ Make nuxthub multi-vendor ([#693](https://github.com/nuxt-hub/core/pull/693))
 
 ### ❤️ Contributors
 
@@ -869,7 +868,7 @@
 
 ### 🚀 Enhancements
 
-- ⚠️  Automatic database migrations ([#333](https://github.com/nuxt-hub/core/pull/333))
+- ⚠️ Automatic database migrations ([#333](https://github.com/nuxt-hub/core/pull/333))
 
 ### 📖 Documentation
 
@@ -882,7 +881,7 @@
 
 #### ⚠️ Breaking Changes
 
-- ⚠️  Automatic database migrations ([#333](https://github.com/nuxt-hub/core/pull/333))
+- ⚠️ Automatic database migrations ([#333](https://github.com/nuxt-hub/core/pull/333))
 
 ### ❤️ Contributors
 
@@ -1635,7 +1634,7 @@
 
 ### 🚀 Enhancements
 
-- **blob:** ⚠️  Change API for consistency ([#187](https://github.com/nuxt-hub/core/pull/187))
+- **blob:** ⚠️ Change API for consistency ([#187](https://github.com/nuxt-hub/core/pull/187))
 
 ### 📖 Documentation
 
@@ -1654,7 +1653,7 @@
 
 #### ⚠️ Breaking Changes
 
-- **blob:** ⚠️  Change API for consistency ([#187](https://github.com/nuxt-hub/core/pull/187))
+- **blob:** ⚠️ Change API for consistency ([#187](https://github.com/nuxt-hub/core/pull/187))
 
 ### ❤️ Contributors
 
@@ -1701,7 +1700,7 @@
 
 ### 🩹 Fixes
 
-- Import runtime types from `@nuxthub/core` ([#168](https://github.com/nuxt-hub/core/pull/168))
+- Import runtime types from `@syncrolio/nuxthub` ([#168](https://github.com/nuxt-hub/core/pull/168))
 
 ### 🏡 Chore
 
@@ -2325,7 +2324,7 @@
 
 ### 🚀 Enhancements
 
-- ⚠️  Module option to enable features ([#42](https://github.com/nuxt-hub/core/pull/42))
+- ⚠️ Module option to enable features ([#42](https://github.com/nuxt-hub/core/pull/42))
 
 ### 🏡 Chore
 
@@ -2333,7 +2332,7 @@
 
 #### ⚠️ Breaking Changes
 
-- ⚠️  Module option to enable features ([#42](https://github.com/nuxt-hub/core/pull/42))
+- ⚠️ Module option to enable features ([#42](https://github.com/nuxt-hub/core/pull/42))
 
 ### ❤️ Contributors
 
@@ -2394,7 +2393,7 @@
 
 - Build hooks in Cloudflare CI ([#40](https://github.com/nuxt-hub/core/pull/40))
 - Transform as module ([#37](https://github.com/nuxt-hub/core/pull/37))
-- ⚠️  Update deps and force breaking change ([a34d67f](https://github.com/nuxt-hub/core/commit/a34d67f))
+- ⚠️ Update deps and force breaking change ([a34d67f](https://github.com/nuxt-hub/core/commit/a34d67f))
 
 ### 🏡 Chore
 
@@ -2402,7 +2401,7 @@
 
 #### ⚠️ Breaking Changes
 
-- ⚠️  Update deps and force breaking change ([a34d67f](https://github.com/nuxt-hub/core/commit/a34d67f))
+- ⚠️ Update deps and force breaking change ([a34d67f](https://github.com/nuxt-hub/core/commit/a34d67f))
 
 ### ❤️ Contributors
 
@@ -2622,7 +2621,7 @@
 
 ### 🚀 Enhancements
 
-- ⚠️  Add server cache binding ([e524bfe](https://github.com/nuxt-hub/core/commit/e524bfe))
+- ⚠️ Add server cache binding ([e524bfe](https://github.com/nuxt-hub/core/commit/e524bfe))
 
 ### 🩹 Fixes
 
@@ -2650,12 +2649,12 @@
 
 #### ⚠️ Breaking Changes
 
-- ⚠️  Add server cache binding ([e524bfe](https://github.com/nuxt-hub/core/commit/e524bfe))
+- ⚠️ Add server cache binding ([e524bfe](https://github.com/nuxt-hub/core/commit/e524bfe))
 
 ### ❤️ Contributors
 
 - Sébastien Chopin ([@Atinux](http://github.com/Atinux))
-- Oskar Świtalski 
+- Oskar Świtalski
 - Sylvain Marroufin ([@smarroufin](http://github.com/smarroufin))
 - Rajeev R Sharma <i.rarsh@gmail.com>
 - Rihan ([@RihanArfan](http://github.com/RihanArfan))
@@ -2691,8 +2690,8 @@
 ### ❤️ Contributors
 
 - Sébastien Chopin ([@Atinux](http://github.com/Atinux))
-- Ben 
-- Brad Veryard 
+- Ben
+- Brad Veryard
 - Sylvain Marroufin ([@smarroufin](http://github.com/smarroufin))
 
 ## v0.2.0
@@ -2701,11 +2700,11 @@
 
 ### 🚀 Enhancements
 
-- ⚠️  Move to layer ([5309e02](https://github.com/nuxt-hub/core/commit/5309e02))
+- ⚠️ Move to layer ([5309e02](https://github.com/nuxt-hub/core/commit/5309e02))
 
 #### ⚠️ Breaking Changes
 
-- ⚠️  Move to layer ([5309e02](https://github.com/nuxt-hub/core/commit/5309e02))
+- ⚠️ Move to layer ([5309e02](https://github.com/nuxt-hub/core/commit/5309e02))
 
 ### ❤️ Contributors
 
@@ -2962,7 +2961,6 @@
 
 ## v0.1.0
 
-
 ### 🚀 Enhancements
 
 - **kv:** Add VK composable & route + notes demo page ([883b4d8](https://github.com/nuxt-hub/core/commit/883b4d8))
@@ -2971,7 +2969,7 @@
 - Add primary keys and indexes ([3364822](https://github.com/nuxt-hub/core/commit/3364822))
 - Support D1 as proxy ([081179d](https://github.com/nuxt-hub/core/commit/081179d))
 - Add index columns ([2c14405](https://github.com/nuxt-hub/core/commit/2c14405))
-- ⚠️  Remove config, remove drizzle, export proxy utils ([3538004](https://github.com/nuxt-hub/core/commit/3538004))
+- ⚠️ Remove config, remove drizzle, export proxy utils ([3538004](https://github.com/nuxt-hub/core/commit/3538004))
 - Add intAsString on zod ([80f9cd1](https://github.com/nuxt-hub/core/commit/80f9cd1))
 - Add ensureBlob ([2b5ce33](https://github.com/nuxt-hub/core/commit/2b5ce33))
 - Cli and rename env variables ([5b0a167](https://github.com/nuxt-hub/core/commit/5b0a167))
@@ -2998,7 +2996,7 @@
 - Add missing dep and improve demo ([9bb75ba](https://github.com/nuxt-hub/core/commit/9bb75ba))
 - Small update ([14c3d7a](https://github.com/nuxt-hub/core/commit/14c3d7a))
 - Final ([7fb9f15](https://github.com/nuxt-hub/core/commit/7fb9f15))
-- ⚠️  Remove useHub() composable ([93cc08f](https://github.com/nuxt-hub/core/commit/93cc08f))
+- ⚠️ Remove useHub() composable ([93cc08f](https://github.com/nuxt-hub/core/commit/93cc08f))
 - Return if correct ([993639f](https://github.com/nuxt-hub/core/commit/993639f))
 - Improve primitives fetching ([8ab4fd1](https://github.com/nuxt-hub/core/commit/8ab4fd1))
 - Use projectKey ([16382a4](https://github.com/nuxt-hub/core/commit/16382a4))
@@ -3125,11 +3123,10 @@
 
 #### ⚠️ Breaking Changes
 
-- ⚠️  Remove config, remove drizzle, export proxy utils ([3538004](https://github.com/nuxt-hub/core/commit/3538004))
-- ⚠️  Remove useHub() composable ([93cc08f](https://github.com/nuxt-hub/core/commit/93cc08f))
+- ⚠️ Remove config, remove drizzle, export proxy utils ([3538004](https://github.com/nuxt-hub/core/commit/3538004))
+- ⚠️ Remove useHub() composable ([93cc08f](https://github.com/nuxt-hub/core/commit/93cc08f))
 
 ### ❤️ Contributors
 
 - Sébastien Chopin ([@Atinux](http://github.com/Atinux))
 - Sylvain Marroufin ([@smarroufin](http://github.com/smarroufin))
-

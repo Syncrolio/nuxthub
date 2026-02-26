@@ -1,118 +1,148 @@
-import { existsSync } from 'node:fs'
-import { resolve } from 'node:path'
-import { pathToFileURL } from 'node:url'
-import { logger } from '@nuxt/kit'
-import type { Nuxt } from 'nuxt/schema'
-import type { HubConfig, ResolvedDatabaseConfig } from '@nuxthub/core'
-import { getPort } from 'get-port-please'
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+import { logger } from "@nuxt/kit";
+import type { Nuxt } from "nuxt/schema";
+import type { HubConfig, ResolvedDatabaseConfig } from "@syncrolio/nuxthub";
+import { getPort } from "get-port-please";
 
-let isReady = false
-let promise: Promise<any> | null = null
-let port = 4983
+let isReady = false;
+let promise: Promise<any> | null = null;
+let port = 4983;
 
-const log = logger.withTag('nuxt:hub')
+const log = logger.withTag("nuxt:hub");
 
 async function launchDrizzleStudio(nuxt: Nuxt, hub: HubConfig) {
-  const dbConfig = hub.db as ResolvedDatabaseConfig
-  if (!dbConfig || typeof dbConfig === 'boolean' || typeof dbConfig === 'string') {
-    throw new Error('Database configuration not resolved properly. Please ensure database is configured in hub.db')
+  const dbConfig = hub.db as ResolvedDatabaseConfig;
+  if (
+    !dbConfig ||
+    typeof dbConfig === "boolean" ||
+    typeof dbConfig === "string"
+  ) {
+    throw new Error(
+      "Database configuration not resolved properly. Please ensure database is configured in hub.db",
+    );
   }
 
-  port = await getPort({ port: 4983 })
+  port = await getPort({ port: 4983 });
 
   try {
-    const { dialect, driver, connection } = dbConfig
-    const dbEntry = resolve(hub.projectDir, 'node_modules', '@nuxthub', 'db', 'db.mjs')
+    const { dialect, driver, connection } = dbConfig;
+    const dbEntry = resolve(
+      hub.projectDir,
+      "node_modules",
+      "@syncrolio",
+      "db",
+      "db.mjs",
+    );
     if (!existsSync(dbEntry)) {
-      throw new Error(`Cannot find @nuxthub/db at ${dbEntry}. Run \`nuxi prepare\` to generate it.`)
+      throw new Error(
+        `Cannot find @syncrolio/db at ${dbEntry}. Run \`nuxi prepare\` to generate it.`,
+      );
     }
-    const { schema } = await import(pathToFileURL(dbEntry).href)
+    const { schema } = await import(pathToFileURL(dbEntry).href);
 
     // Launch Drizzle Studio based on dialect and driver
     // Some drivers require launching from within Nitro (where the binding/client lives)
-    const nitroDevUrl = `${nuxt.options.devServer.https ? 'https' : 'http'}://localhost:${nuxt.options.devServer.port || 3000}`
+    const nitroDevUrl = `${nuxt.options.devServer.https ? "https" : "http"}://localhost:${nuxt.options.devServer.port || 3000}`;
 
-    if (dialect === 'postgresql') {
-      if (driver === 'pglite') {
-        log.info(`Launching Drizzle Studio with PGlite...`)
+    if (dialect === "postgresql") {
+      if (driver === "pglite") {
+        log.info(`Launching Drizzle Studio with PGlite...`);
         // Trigger studio launch in the Nitro process for PGlite instance
-        await fetch(`${nitroDevUrl}/api/_hub/db/launch-studio?port=${port}&driver=pglite`, {
-          method: 'POST'
-        })
+        await fetch(
+          `${nitroDevUrl}/api/_hub/db/launch-studio?port=${port}&driver=pglite`,
+          {
+            method: "POST",
+          },
+        );
       } else {
-        const { startStudioPostgresServer } = await import('drizzle-kit/api')
+        const { startStudioPostgresServer } = await import("drizzle-kit/api");
         // For postgres-js and other PostgreSQL drivers
-        log.info(`Launching Drizzle Studio with PostgreSQL...`)
-        await startStudioPostgresServer(schema, connection, { port })
+        log.info(`Launching Drizzle Studio with PostgreSQL...`);
+        await startStudioPostgresServer(schema, connection, { port });
       }
-    } else if (dialect === 'mysql') {
-      const { startStudioMySQLServer } = await import('drizzle-kit/api')
-      log.info(`Launching Drizzle Studio with MySQL...`)
-      await startStudioMySQLServer(schema, connection, { port })
-    } else if (dialect === 'sqlite') {
-      if (driver === 'd1') {
-        log.info(`Launching Drizzle Studio with D1 binding...`)
+    } else if (dialect === "mysql") {
+      const { startStudioMySQLServer } = await import("drizzle-kit/api");
+      log.info(`Launching Drizzle Studio with MySQL...`);
+      await startStudioMySQLServer(schema, connection, { port });
+    } else if (dialect === "sqlite") {
+      if (driver === "d1") {
+        log.info(`Launching Drizzle Studio with D1 binding...`);
         // Trigger studio launch in the Nitro process for D1 binding access
-        await fetch(`${nitroDevUrl}/api/_hub/db/launch-studio?port=${port}&driver=d1`, {
-          method: 'POST'
-        })
+        await fetch(
+          `${nitroDevUrl}/api/_hub/db/launch-studio?port=${port}&driver=d1`,
+          {
+            method: "POST",
+          },
+        );
       } else {
-        const { startStudioSQLiteServer } = await import('drizzle-kit/api')
-        log.info(`Launching Drizzle Studio with SQLite (${driver})...`)
+        const { startStudioSQLiteServer } = await import("drizzle-kit/api");
+        log.info(`Launching Drizzle Studio with SQLite (${driver})...`);
         // drizzle-kit auto-detects libsql from @libsql/client package
         // Only pass driver for d1-http, otherwise just pass connection
-        const studioConnection = driver === 'd1-http'
-          ? { driver: 'd1-http', ...connection }
-          : connection
-        await startStudioSQLiteServer(schema, studioConnection as any, { port })
+        const studioConnection =
+          driver === "d1-http"
+            ? { driver: "d1-http", ...connection }
+            : connection;
+        await startStudioSQLiteServer(schema, studioConnection as any, {
+          port,
+        });
       }
     } else {
-      throw new Error(`Unsupported database dialect: ${dialect}`)
+      throw new Error(`Unsupported database dialect: ${dialect}`);
     }
 
-    isReady = true
+    isReady = true;
   } catch (error) {
-    log.error('Failed to launch Drizzle Studio:', error)
-    throw error
+    log.error("Failed to launch Drizzle Studio:", error);
+    throw error;
   }
 }
 
 export function addDevToolsCustomTabs(nuxt: Nuxt, hub: HubConfig) {
-  nuxt.hook('devtools:customTabs', (tabs) => {
-    if (nuxt.options.nitro.experimental?.openAPI)({
-      category: 'server',
-      name: 'hub-open-api',
-      title: 'OpenAPI',
-      icon: 'i-lucide-file-text',
-      view: {
-        type: 'iframe',
-        src: `/_scalar`
-      }
-    })
+  nuxt.hook("devtools:customTabs", (tabs) => {
+    if (nuxt.options.nitro.experimental?.openAPI)
+      ({
+        category: "server",
+        name: "hub-open-api",
+        title: "OpenAPI",
+        icon: "i-lucide-file-text",
+        view: {
+          type: "iframe",
+          src: `/_scalar`,
+        },
+      });
 
-    if (hub.db) tabs.push({
-      category: 'server',
-      name: 'hub-db',
-      title: 'Database',
-      icon: 'i-lucide-database',
-      view: isReady && port
-        ? {
-            type: 'iframe',
-            src: `https://local.drizzle.studio?port=${port}`,
-            permissions: ['local-network-access https://local.drizzle.studio']
-          }
-        : {
-            type: 'launch',
-            description: 'Launch Drizzle Studio',
-            actions: [{
-              label: promise ? 'Starting...' : 'Launch',
-              pending: isReady,
-              handle() {
-                promise = promise || launchDrizzleStudio(nuxt, hub)
-                return promise
+    if (hub.db)
+      tabs.push({
+        category: "server",
+        name: "hub-db",
+        title: "Database",
+        icon: "i-lucide-database",
+        view:
+          isReady && port
+            ? {
+                type: "iframe",
+                src: `https://local.drizzle.studio?port=${port}`,
+                permissions: [
+                  "local-network-access https://local.drizzle.studio",
+                ],
               }
-            }]
-          }
-    })
-  })
+            : {
+                type: "launch",
+                description: "Launch Drizzle Studio",
+                actions: [
+                  {
+                    label: promise ? "Starting..." : "Launch",
+                    pending: isReady,
+                    handle() {
+                      promise = promise || launchDrizzleStudio(nuxt, hub);
+                      return promise;
+                    },
+                  },
+                ],
+              },
+      });
+  });
 }

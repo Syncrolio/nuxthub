@@ -2,7 +2,7 @@
 title: NuxtHub Multi-Vendor is now available
 description: "NuxtHub is now available on multiple cloud providers. You can now deploy your NuxtHub project on your own hosting provider."
 date: 2025-12-10
-image: '/images/changelog/nuxthub-multi-vendor.png'
+image: "/images/changelog/nuxthub-multi-vendor.png"
 authors:
   - name: Sebastien Chopin
     avatar:
@@ -17,7 +17,7 @@ authors:
 ---
 
 ::tip
-This feature is available in [`@nuxthub/core >= v0.10.0`](https://github.com/nuxt-hub/core/releases/tag/v0.10.0).
+This feature is available in [`@syncrolio/nuxthub >= v0.10.0`](https://github.com/nuxt-hub/core/releases/tag/v0.10.0).
 ::
 
 Since [Vercel's acquisition of NuxtLabs](https://nuxtlabs.com), we've been working to let you build full-stack Nuxt applications across multiple hosting providers. Today, we're excited to announce that **NuxtHub is now multi-vendor**.
@@ -38,12 +38,12 @@ NuxtHub v0.10 brings multi-cloud support for all core features:
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   hub: {
-    db: 'postgresql',  // or 'sqlite', 'mysql'
+    db: "postgresql", // or 'sqlite', 'mysql'
     blob: true,
     kv: true,
-    cache: true
-  }
-})
+    cache: true,
+  },
+});
 ```
 
 NuxtHub detects your deployment environment and configures the appropriate drivers automatically. It also uses PGLite locally if no PostgreSQL connection is provided.
@@ -61,24 +61,24 @@ NuxtHub v0.10 introduces a completely new database experience powered by [Drizzl
 Define your schema in `server/db/schema.ts` (or split across multiple files in `server/db/schema/`), and NuxtHub automatically registers everything:
 
 ```ts [server/db/schema.ts]
-import { pgTable, text, serial, timestamp } from 'drizzle-orm/pg-core'
+import { pgTable, text, serial, timestamp } from "drizzle-orm/pg-core";
 
-export const users = pgTable('users', {
+export const users = pgTable("users", {
   id: serial().primaryKey(),
   name: text().notNull(),
   email: text().notNull().unique(),
-  createdAt: timestamp().notNull().defaultNow()
-})
+  createdAt: timestamp().notNull().defaultNow(),
+});
 ```
 
 Your schema is then accessible via the `schema` object in the `hub:db` namespace:
 
 ```ts [server/api/users.get.ts]
-import { db, schema } from 'hub:db'
+import { db, schema } from "hub:db";
 
 export default eventHandler(async () => {
-  return await db.select().from(schema.users)
-})
+  return await db.select().from(schema.users);
+});
 ```
 
 ### Extendable by Modules & Layers
@@ -88,11 +88,11 @@ One of the most powerful features is the ability for [Nuxt modules](https://nuxt
 ```ts [modules/auth/index.ts]
 export default defineNuxtModule({
   setup(options, nuxt) {
-    nuxt.hook('hub:db:schema:extend', async ({ dialect, paths }) => {
-      paths.push(await resolvePath(`./schema/users.${dialect}`))
-    })
-  }
-})
+    nuxt.hook("hub:db:schema:extend", async ({ dialect, paths }) => {
+      paths.push(await resolvePath(`./schema/users.${dialect}`));
+    });
+  },
+});
 ```
 
 ### The `nuxt db` CLI
@@ -148,6 +148,7 @@ The migration tool walks you through each step, ensuring your data and configura
 **During December 2025**, we will cancel all active subscriptions. Pro-rata refunds will be issued for any unused time beyond **December 31st, 2025**.
 
 During this period:
+
 - You **won't be able** to create new projects on NuxtHub Admin
 - You **will still be able** until February 2nd, 2026 to:
   - deploy existing projects

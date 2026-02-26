@@ -1,12 +1,15 @@
-import { kv } from '@nuxthub/kv'
+import { kv } from "@syncrolio/kv";
 
 export default eventHandler(async (event) => {
-  const { key } = await getValidatedRouterParams(event, z.object({
-    key: z.string().min(1).max(100)
-  }).parse)
+  const { key } = await getValidatedRouterParams(
+    event,
+    z.object({
+      key: z.string().min(1).max(100),
+    }).parse,
+  );
 
   // Delete entry for the current user
-  await kv.del(key)
+  await kv.del(key);
 
-  return { key }
-})
+  return { key };
+});

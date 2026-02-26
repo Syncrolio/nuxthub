@@ -1,15 +1,15 @@
-import { blob } from '@nuxthub/blob'
+import { blob } from "@syncrolio/blob";
 
 export default eventHandler(async (event) => {
-  const { prefix } = getQuery(event)
+  const { prefix } = getQuery(event);
   return blob.handleUpload(event, {
-    formKey: 'files', // default
+    formKey: "files", // default
     multiple: true, // default
     put: {
-      prefix: String(prefix || ''),
+      prefix: String(prefix || ""),
       customMetadata: {
-        hello: 'world'
-      }
-    }
-  })
-})
+        hello: "world",
+      },
+    },
+  });
+});

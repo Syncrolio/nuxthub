@@ -17,7 +17,7 @@ import type {
   ModuleOptions,
   HubConfig,
   ResolvedHubConfig,
-} from "@nuxthub/core";
+} from "@syncrolio/nuxthub";
 import { addDevToolsCustomTabs } from "./devtools";
 import { setupCloudflare } from "./hosting/cloudflare";
 import type { NuxtModule } from "@nuxt/schema";
@@ -69,9 +69,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     const packageJSONPath = await resolvePackageJSON(nuxt.options.rootDir);
 
-    hub.projectDir = dirname(packageJSONPath)
+    hub.projectDir = dirname(packageJSONPath);
 
-    console.log({ hubProjectDir: hub.projectDir })
+    console.log({ hubProjectDir: hub.projectDir });
 
     const packageJSON = await readPackageJSON(packageJSONPath);
     const deps = Object.assign(

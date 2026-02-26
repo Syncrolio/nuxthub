@@ -2,7 +2,7 @@
 title: Self-Hosting First & Cloud-Agnostic Future
 description: "We are evolving NuxtHub to become a truly multi-cloud platform. This transition requires us to move away from features tightly coupled to a single cloud provider and adopt a more flexible, cloud-agnostic approach."
 date: 2025-11-26
-image: '/images/changelog/self-hosting-first.png'
+image: "/images/changelog/self-hosting-first.png"
 authors:
   - name: Rihan Arfan
     avatar:
@@ -17,7 +17,7 @@ authors:
 ---
 
 ::tip
-This feature is available in [`@nuxthub/core >= v0.9.1`](https://github.com/nuxt-hub/core/releases/tag/v0.9.1).
+This feature is available in [`@syncrolio/nuxthub >= v0.9.1`](https://github.com/nuxt-hub/core/releases/tag/v0.9.1).
 ::
 
 Following the [acquisition of NuxtLabs](https://nuxtlabs.com), we are evolving NuxtHub to become a truly multi-cloud platform. This transition requires us to move away from features tightly coupled to a single cloud provider and adopt a more flexible, cloud-agnostic approach.
@@ -37,6 +37,7 @@ Read more about self-hosting.
 To ensure a smooth transition, we've significantly improved the self-hosting experience with direct Cloudflare API integration. You can now use more features without relying on NuxtHub Admin:
 
 #### **Simplified Remote Storage Setup**
+
 - New `hub.projectUrl` configuration option for cleaner setup
 - Environment-based project URL selection (production/preview)
 - Direct project-to-project authentication via `NUXT_HUB_PROJECT_SECRET_KEY`
@@ -47,13 +48,16 @@ Read more about the remote storage setup.
 ::
 
 #### **Direct Cloudflare API Support**
+
 New environment variables enable direct API access for self-hosted projects:
+
 - `NUXT_HUB_CLOUDFLARE_ACCOUNT_ID` - Your Cloudflare account ID
 - `NUXT_HUB_CLOUDFLARE_API_TOKEN` - API token for service access
 - `NUXT_HUB_CLOUDFLARE_BUCKET_ID` - For R2 blob operations
 - `NUXT_HUB_CLOUDFLARE_CACHE_NAMESPACE_ID` - For KV cache operations
 
 These credentials allow you to:
+
 - Run AI and AutoRAG models during local development
 - Perform cache bulk deletion operations with the Nuxt DevTools
 - Generate presigned URLs for blob uploads at runtime
@@ -91,6 +95,7 @@ NUXT_HUB_CLOUDFLARE_API_TOKEN=<your-api-token>
 NUXT_HUB_CLOUDFLARE_BUCKET_ID=<your-bucket-id>
 NUXT_HUB_CLOUDFLARE_CACHE_NAMESPACE_ID=<your-namespace-id>
 ```
+
 ::note
 In the coming weeks, we will update the NuxtHub Admin with an easier migration path to help you either stay on Cloudflare or move to Vercel.
 ::

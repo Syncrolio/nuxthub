@@ -1,29 +1,29 @@
-import type { BuiltinDriverName } from 'unstorage'
-import type { FSDriverOptions } from '@nuxthub/core/blob/drivers/fs'
-import type { S3DriverOptions } from '@nuxthub/core/blob/drivers/s3'
-import type { VercelDriverOptions } from '@nuxthub/core/blob/drivers/vercel-blob'
-import type { CloudflareDriverOptions } from '@nuxthub/core/blob/drivers/cloudflare-r2'
+import type { BuiltinDriverName } from "unstorage";
+import type { FSDriverOptions } from "@syncrolio/nuxthub/blob/drivers/fs";
+import type { S3DriverOptions } from "@syncrolio/nuxthub/blob/drivers/s3";
+import type { VercelDriverOptions } from "@syncrolio/nuxthub/blob/drivers/vercel-blob";
+import type { CloudflareDriverOptions } from "@syncrolio/nuxthub/blob/drivers/cloudflare-r2";
 
 export interface HubConfig {
-  blob: boolean | BlobConfig
-  cache: boolean | CacheConfig
-  db: false | 'postgresql' | 'sqlite' | 'mysql' | DatabaseConfig
-  kv: boolean | KVConfig
-  dir: string
-  hosting: string
-  projectDir: string
+  blob: boolean | BlobConfig;
+  cache: boolean | CacheConfig;
+  db: false | "postgresql" | "sqlite" | "mysql" | DatabaseConfig;
+  kv: boolean | KVConfig;
+  dir: string;
+  hosting: string;
+  projectDir: string;
 }
 
 export interface ResolvedHubConfig extends HubConfig {
-  blob: ResolvedBlobConfig | false
-  cache: ResolvedCacheConfig | false
-  db: ResolvedDatabaseConfig | false
-  kv: ResolvedKVConfig | false
-  dir: string
+  blob: ResolvedBlobConfig | false;
+  cache: ResolvedCacheConfig | false;
+  db: ResolvedDatabaseConfig | false;
+  kv: ResolvedKVConfig | false;
+  dir: string;
 }
 
 export interface ModuleRuntimeConfig {
-  hub: ResolvedHubConfig
+  hub: ResolvedHubConfig;
 }
 
 export interface ModuleOptions {
@@ -34,7 +34,7 @@ export interface ModuleOptions {
    * @default false
    * @see https://hub.nuxt.com/docs/blob
    */
-  blob?: boolean | BlobConfig
+  blob?: boolean | BlobConfig;
   /**
    * Set `true` to enable caching for the project with auto-configuration.
    * Or provide a CacheConfig object with driver and connection details.
@@ -42,7 +42,7 @@ export interface ModuleOptions {
    * @default false
    * @see https://hub.nuxt.com/docs/cache
    */
-  cache?: boolean | CacheConfig
+  cache?: boolean | CacheConfig;
   /**
    * Set to `'postgresql'`, `'sqlite'`, or `'mysql'` to use a specific database dialect with a zero-config development database.
    * Or provide a DatabaseConfig object with dialect and connection details.
@@ -50,7 +50,7 @@ export interface ModuleOptions {
    * @default false
    * @see https://hub.nuxt.com/docs/database
    */
-  db?: 'postgresql' | 'sqlite' | 'mysql' | DatabaseConfig | false
+  db?: "postgresql" | "sqlite" | "mysql" | DatabaseConfig | false;
   /**
    * Set `true` to enable the key-value storage with auto-configuration.
    * Or provide a KVConfig object with driver and connection details.
@@ -58,113 +58,125 @@ export interface ModuleOptions {
    * @default false
    * @see https://hub.nuxt.com/docs/kv
    */
-  kv?: boolean | KVConfig
+  kv?: boolean | KVConfig;
   /**
    * The directory used for storage (database, kv, etc.) during local development.
    * @default '.data'
    */
-  dir?: string
+  dir?: string;
   /**
    * The hosting provider that the project is hosted on.
    * This is automatically determined using the NITRO_PRESET or the detected provider during the CI/CD.
    */
-  hosting?: string
+  hosting?: string;
 }
 
 // Blob driver configurations - extend from driver option types
-export type FSBlobConfig = { driver: 'fs' } & FSDriverOptions
-export type S3BlobConfig = { driver: 's3' } & S3DriverOptions
-export type VercelBlobConfig = { driver: 'vercel-blob' } & VercelDriverOptions
-export type CloudflareR2BlobConfig = { driver: 'cloudflare-r2', bucketName?: string } & CloudflareDriverOptions
+export type FSBlobConfig = { driver: "fs" } & FSDriverOptions;
+export type S3BlobConfig = { driver: "s3" } & S3DriverOptions;
+export type VercelBlobConfig = { driver: "vercel-blob" } & VercelDriverOptions;
+export type CloudflareR2BlobConfig = {
+  driver: "cloudflare-r2";
+  bucketName?: string;
+} & CloudflareDriverOptions;
 
-export type BlobConfig = boolean | FSBlobConfig | S3BlobConfig | VercelBlobConfig | CloudflareR2BlobConfig
-export type ResolvedBlobConfig = FSBlobConfig | S3BlobConfig | VercelBlobConfig | CloudflareR2BlobConfig
+export type BlobConfig =
+  | boolean
+  | FSBlobConfig
+  | S3BlobConfig
+  | VercelBlobConfig
+  | CloudflareR2BlobConfig;
+export type ResolvedBlobConfig =
+  | FSBlobConfig
+  | S3BlobConfig
+  | VercelBlobConfig
+  | CloudflareR2BlobConfig;
 
 export type CacheConfig = {
-  driver?: BuiltinDriverName
+  driver?: BuiltinDriverName;
   /**
    * Cloudflare KV namespace ID for auto-generating wrangler bindings
    */
-  namespaceId?: string
-  [key: string]: any
-}
+  namespaceId?: string;
+  [key: string]: any;
+};
 export type ResolvedCacheConfig = CacheConfig & {
-  driver: BuiltinDriverName
-}
+  driver: BuiltinDriverName;
+};
 
 export type KVConfig = {
-  driver?: BuiltinDriverName
+  driver?: BuiltinDriverName;
   /**
    * Cloudflare KV namespace ID for auto-generating wrangler bindings
    */
-  namespaceId?: string
-  [key: string]: any
-}
+  namespaceId?: string;
+  [key: string]: any;
+};
 
 export type ResolvedKVConfig = KVConfig & {
-  driver: BuiltinDriverName
-}
+  driver: BuiltinDriverName;
+};
 
 type DatabaseConnection = {
   /**
    * Database connection URL
    */
-  url?: string
+  url?: string;
   /**
    * Auth token (for Turso/libSQL)
    */
-  authToken?: string
+  authToken?: string;
   /**
    * Connection string (for PostgreSQL)
    */
-  connectionString?: string
+  connectionString?: string;
   /**
    * Database host
    */
-  host?: string
+  host?: string;
   /**
    * Database port
    */
-  port?: number
+  port?: number;
   /**
    * Database username
    */
-  user?: string
+  user?: string;
   /**
    * Database password
    */
-  password?: string
+  password?: string;
   /**
    * Database name
    */
-  database?: string
+  database?: string;
   /**
    * Cloudflare Account ID (for D1 HTTP driver)
    */
-  accountId?: string
+  accountId?: string;
   /**
    * Cloudflare API Token (for D1 HTTP driver)
    */
-  apiToken?: string
+  apiToken?: string;
   /**
    * Cloudflare D1 Database ID (for D1 driver and D1 HTTP driver)
    */
-  databaseId?: string
+  databaseId?: string;
   /**
    * Cloudflare Hyperdrive ID for auto-generating wrangler bindings (PostgreSQL/MySQL)
    */
-  hyperdriveId?: string
+  hyperdriveId?: string;
   /**
    * Additional connection options
    */
-  [key: string]: any
-}
+  [key: string]: any;
+};
 
 export type DatabaseConfig = {
   /**
    * Database dialect
    */
-  dialect: 'sqlite' | 'postgresql' | 'mysql'
+  dialect: "sqlite" | "postgresql" | "mysql";
   /**
    * Database driver (optional, auto-detected if not provided)
    *
@@ -172,32 +184,41 @@ export type DatabaseConfig = {
    * PostgreSQL drivers: 'postgres-js', 'pglite', 'neon-http'
    * MySQL drivers: 'mysql2'
    */
-  driver?: 'better-sqlite3' | 'libsql' | 'bun-sqlite' | 'd1' | 'd1-http' | 'postgres-js' | 'pglite' | 'neon-http' | 'mysql2'
+  driver?:
+    | "better-sqlite3"
+    | "libsql"
+    | "bun-sqlite"
+    | "d1"
+    | "d1-http"
+    | "postgres-js"
+    | "pglite"
+    | "neon-http"
+    | "mysql2";
   /**
    * Database connection configuration
    */
-  connection?: DatabaseConnection
+  connection?: DatabaseConnection;
   /**
    * The directories to scan for database migrations.
    * @default ['server/db/migrations']
    */
-  migrationsDirs?: string[]
+  migrationsDirs?: string[];
   /**
    * The paths to the SQL queries to apply after the database migrations complete.
    */
-  queriesPaths?: string[]
+  queriesPaths?: string[];
   /**
    * Set `false` to disable applying database migrations during production build time.
    *
    * @default true
    */
-  applyMigrationsDuringBuild?: boolean
+  applyMigrationsDuringBuild?: boolean;
   /**
    * Set `false` to disable applying database migrations during development (`nuxt dev`).
    *
    * @default true
    */
-  applyMigrationsDuringDev?: boolean
+  applyMigrationsDuringDev?: boolean;
   /**
    * MySQL mode for Drizzle ORM relational queries.
    * Only applicable when dialect is 'mysql'.
@@ -205,14 +226,14 @@ export type DatabaseConfig = {
    * @default 'default'
    * @see https://orm.drizzle.team/docs/rqb#modes
    */
-  mode?: 'default' | 'planetscale'
+  mode?: "default" | "planetscale";
   /**
    * Database model naming convention for Drizzle ORM.
    * When set to `'snake_case'`, automatically maps camelCase JavaScript keys to snake_case database column names.
    *
    * @see https://orm.drizzle.team/docs/sql-schema-declaration#camel-and-snake-casing
    */
-  casing?: 'snake_case' | 'camelCase'
+  casing?: "snake_case" | "camelCase";
   /**
    * Read replica connection URLs for PostgreSQL (postgres-js) and MySQL (mysql2) drivers.
    * When configured, read queries are automatically routed to replicas while writes go to the primary.
@@ -224,17 +245,26 @@ export type DatabaseConfig = {
    *
    * @see https://orm.drizzle.team/docs/read-replicas
    */
-  replicas?: string[]
-}
+  replicas?: string[];
+};
 
 export type ResolvedDatabaseConfig = DatabaseConfig & {
-  dialect: 'sqlite' | 'postgresql' | 'mysql'
-  driver: 'better-sqlite3' | 'libsql' | 'bun-sqlite' | 'd1' | 'd1-http' | 'postgres-js' | 'pglite' | 'neon-http' | 'mysql2'
-  connection: DatabaseConnection
-  migrationsDirs: string[]
-  queriesPaths: string[]
-  applyMigrationsDuringBuild: boolean
-  applyMigrationsDuringDev: boolean
-  casing?: 'snake_case' | 'camelCase'
-  replicas?: string[]
-}
+  dialect: "sqlite" | "postgresql" | "mysql";
+  driver:
+    | "better-sqlite3"
+    | "libsql"
+    | "bun-sqlite"
+    | "d1"
+    | "d1-http"
+    | "postgres-js"
+    | "pglite"
+    | "neon-http"
+    | "mysql2";
+  connection: DatabaseConnection;
+  migrationsDirs: string[];
+  queriesPaths: string[];
+  applyMigrationsDuringBuild: boolean;
+  applyMigrationsDuringDev: boolean;
+  casing?: "snake_case" | "camelCase";
+  replicas?: string[];
+};
