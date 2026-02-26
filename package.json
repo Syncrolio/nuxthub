@@ -7,6 +7,10 @@
     "type": "git",
     "url": "https://github.com/Syncrolio/nuxthub.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
   "homepage": "https://hub.nuxt.com",
   "license": "Apache-2.0",
   "type": "module",
