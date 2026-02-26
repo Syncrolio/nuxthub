@@ -1,7 +1,7 @@
-import { mkdir, copyFile, writeFile, readFile, stat } from "node:fs/promises";
+import { mkdir, copyFile, writeFile, readFile, stat, cp } from "node:fs/promises";
 import chokidar from "chokidar";
 import { glob } from "tinyglobby";
-import { join, resolve as resolveFs, relative } from "pathe";
+import { join, resolve as resolveFs, relative, dirname } from "pathe";
 import { defu } from "defu";
 import {
   addServerImports,
@@ -333,6 +333,67 @@ export async function setupDatabase(
   await setupDatabaseConfig(nuxt, hub as ResolvedHubConfig);
 }
 
+/**
+ * Copy schema files from node_modules to the build directory.
+ *
+ * tsdown (used by buildDatabaseSchema) invokes Node's type stripping,
+ * which refuses to process .ts files under node_modules. This copies
+ * each layer's schema directory to .nuxt/hub/db/layer-schemas/ and
+ * remaps the paths array in-place.
+ */
+async function copyNodeModuleSchemas(nuxt: Nuxt, paths: string[]) {
+  const nodeModuleEntries: [number, string][] = [];
+  for (let i = 0; i < paths.length; i++) {
+    const p = paths[i];
+    if (p && p.includes("node_modules")) {
+      nodeModuleEntries.push([i, p]);
+    }
+  }
+  if (nodeModuleEntries.length === 0) return;
+
+  log.info("Copying layer schema files from node_modules to build directory");
+
+  const layerSchemasDir = join(nuxt.options.buildDir, "hub/db/layer-schemas");
+  const copiedDirs = new Map<string, string>();
+
+  for (const [idx, originalPath] of nodeModuleEntries) {
+    const schemaDir = dirname(originalPath);
+
+    if (!copiedDirs.has(schemaDir)) {
+      const segments = originalPath.split("/");
+      const c12Idx = segments.indexOf(".c12");
+      const nmIdx = segments.indexOf("node_modules");
+
+      let layerName: string;
+      const c12Segment = c12Idx >= 0 ? segments[c12Idx + 1] : undefined;
+      const nmSegment = nmIdx >= 0 ? segments[nmIdx + 1] : undefined;
+
+      if (c12Segment) {
+        // gh: extends — use folder name after .c12
+        layerName = c12Segment;
+      } else if (nmSegment) {
+        // npm package — handle scoped packages (@scope/name)
+        const nextSegment = segments[nmIdx + 2];
+        layerName =
+          nmSegment.startsWith("@") && nextSegment
+            ? `${nmSegment}/${nextSegment}`
+            : nmSegment;
+      } else {
+        layerName = `layer-${copiedDirs.size}`;
+      }
+
+      const targetDir = join(layerSchemasDir, layerName);
+      await mkdir(targetDir, { recursive: true });
+      await cp(schemaDir, targetDir, { recursive: true });
+      copiedDirs.set(schemaDir, targetDir);
+    }
+
+    const copiedDir = copiedDirs.get(schemaDir);
+    if (!copiedDir) continue;
+    paths[idx] = join(copiedDir, relative(schemaDir, originalPath));
+  }
+}
+
 async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
   if (!hub.db) return;
   const dialect = hub.db.dialect;
@@ -354,6 +415,11 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
       dialect,
       paths: schemaPaths,
     });
+
+    // Fix schema paths under node_modules: tsdown's Node type stripping
+    // refuses to process .ts files inside node_modules. Copy them to the
+    // build directory and remap the paths.
+    await copyNodeModuleSchemas(nuxt, schemaPaths);
 
     schemaPaths = schemaPaths.filter((path) => {
       const meta = getDatabaseSchemaPathMetadata(path);
