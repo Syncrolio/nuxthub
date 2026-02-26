@@ -1,0 +1,35 @@
+name: Publish Package
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - run: npm i -g --force corepack && corepack enable
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: "pnpm"
+      - run: pnpm install
+
+      - name: Set version from commit SHA
+        run: |
+          BASE_VERSION=$(jq -r .version package.json)
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          npm version "${BASE_VERSION}-${SHORT_SHA}" --no-git-tag-version
+
+      - name: Publish to GitHub Packages
+        run: npm publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

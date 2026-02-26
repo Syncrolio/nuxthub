@@ -1,11 +1,11 @@
 {
-  "name": "@nuxthub/core",
+  "name": "@syncrolio/nuxthub",
   "private": false,
   "version": "0.10.6",
   "description": "Build full-stack Nuxt applications, with zero configuration.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nuxt-hub/core.git"
+    "url": "https://github.com/Syncrolio/nuxthub.git"
   },
   "homepage": "https://hub.nuxt.com",
   "license": "Apache-2.0",
