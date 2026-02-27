@@ -486,7 +486,7 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
         const copies: Promise<void>[] = [];
         for (const chunk of schemaBundle[0].chunks) {
           copies.push(
-            new Promise(() =>
+            new Promise((resolve, reject) =>
               copyFile(
                 join(chunk.outDir, chunk.fileName),
                 join(
@@ -496,7 +496,9 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
                   chunk.outDir,
                   chunk.fileName,
                 ),
-              ),
+              )
+                .then(() => resolve)
+                .catch(() => reject),
             ),
           );
         }
@@ -546,7 +548,7 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
         _chunk.fileName.endsWith(".mjs"),
       )) {
         copies.push(
-          new Promise(() =>
+          new Promise((resolve, reject) =>
             copyFile(
               join(chunk.outDir, chunk.fileName),
               join(
@@ -556,7 +558,9 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
                 chunk.outDir,
                 chunk.fileName,
               ),
-            ),
+            )
+              .then(() => resolve)
+              .catch(() => reject),
           ),
         );
       }
