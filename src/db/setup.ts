@@ -484,32 +484,21 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
 
       try {
         const copies: Promise<void>[] = [];
-        for (const chunk of schemaBundle[0].chunks) {
-          // copies.push(
-          // new Promise((resolve, reject) =>
+        // for (const chunk of schemaBundle[0].chunks) {
+        // }
 
-          log.error("Copying file", {
-            from: join(chunk.outDir, chunk.fileName),
-            to: join(
-              physicalDbDir,
-              relative(join(nuxt.options.buildDir, "hub/db"), chunk.outDir),
-              chunk.fileName,
+        copies.push(
+          ...schemaBundle[0].chunks.map((chunk) =>
+            copyFile(
+              join(chunk.outDir, chunk.fileName),
+              join(
+                physicalDbDir,
+                relative(join(nuxt.options.buildDir, "hub/db"), chunk.outDir),
+                chunk.fileName,
+              ),
             ),
-          });
-
-          await copyFile(
-            join(chunk.outDir, chunk.fileName),
-            join(
-              physicalDbDir,
-              relative(join(nuxt.options.buildDir, "hub/db"), chunk.outDir),
-              chunk.fileName,
-            ),
-          );
-          // .then(() => resolve)
-          // .catch(() => reject),
-          // ),
-          // );
-        }
+          ),
+        );
         await Promise.all(copies);
         // await copyFile(
         //   join(nuxt.options.buildDir, "hub/db/schema.mjs"),
@@ -552,32 +541,38 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
 
     try {
       const copies: Promise<void>[] = [];
-      for (const chunk of schemaBundle[0].chunks.filter((_chunk) =>
-        _chunk.fileName.endsWith(".mjs"),
-      )) {
-        // copies.push(
-        //   new Promise((resolve, reject) =>
-        log.error("Copying file", {
-          from: join(chunk.outDir, chunk.fileName),
-          to: join(
-            physicalDbDir,
-            relative(join(nuxt.options.buildDir, "hub/db"), chunk.outDir),
-            chunk.fileName,
+      // for (const chunk of schemaBundle[0].chunks.filter((_chunk) =>
+      //   _chunk.fileName.endsWith(".mjs"),
+      // )) {
+      //   // copies.push(
+      //   //   new Promise((resolve, reject) =>
+      //   // await copyFile(
+      //   //   join(chunk.outDir, chunk.fileName),
+      //   //   join(
+      //   //     physicalDbDir,
+      //   //     relative(join(nuxt.options.buildDir, "hub/db"), chunk.outDir),
+      //   //     chunk.fileName,
+      //   //   ),
+      //   // );
+      //   //       .then(() => resolve)
+      //   //       .catch(() => reject),
+      //   //   ),
+      //   // );
+      // }
+      copies.push(
+        ...schemaBundle[0].chunks
+          .filter((_chunk) => _chunk.fileName.endsWith(".mjs"))
+          .map((chunk) =>
+            copyFile(
+              join(chunk.outDir, chunk.fileName),
+              join(
+                physicalDbDir,
+                relative(join(nuxt.options.buildDir, "hub/db"), chunk.outDir),
+                chunk.fileName,
+              ),
+            ),
           ),
-        });
-        await copyFile(
-          join(chunk.outDir, chunk.fileName),
-          join(
-            physicalDbDir,
-            relative(join(nuxt.options.buildDir, "hub/db"), chunk.outDir),
-            chunk.fileName,
-          ),
-        );
-        //       .then(() => resolve)
-        //       .catch(() => reject),
-        //   ),
-        // );
-      }
+      );
       await Promise.all(copies);
       // await copyFile(
       //   join(nuxt.options.buildDir, "hub/db/schema.mjs"),
