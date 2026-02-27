@@ -488,13 +488,11 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
           // copies.push(
           // new Promise((resolve, reject) =>
 
-          console.log("Copying file", {
+          log.error("Copying file", {
             from: join(chunk.outDir, chunk.fileName),
             to: join(
               physicalDbDir,
-              nuxt.options.buildDir,
-              "hub/db",
-              chunk.outDir,
+              relative(join(nuxt.options.buildDir, "hub/db"), chunk.outDir),
               chunk.fileName,
             ),
           });
@@ -503,9 +501,7 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
             join(chunk.outDir, chunk.fileName),
             join(
               physicalDbDir,
-              nuxt.options.buildDir,
-              "hub/db",
-              chunk.outDir,
+              relative(join(nuxt.options.buildDir, "hub/db"), chunk.outDir),
               chunk.fileName,
             ),
           );
@@ -561,13 +557,11 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
       )) {
         // copies.push(
         //   new Promise((resolve, reject) =>
-        console.log("Copying file", {
+        log.error("Copying file", {
           from: join(chunk.outDir, chunk.fileName),
           to: join(
             physicalDbDir,
-            nuxt.options.buildDir,
-            "hub/db",
-            chunk.outDir,
+            relative(join(nuxt.options.buildDir, "hub/db"), chunk.outDir),
             chunk.fileName,
           ),
         });
@@ -575,9 +569,7 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
           join(chunk.outDir, chunk.fileName),
           join(
             physicalDbDir,
-            nuxt.options.buildDir,
-            "hub/db",
-            chunk.outDir,
+            relative(join(nuxt.options.buildDir, "hub/db"), chunk.outDir),
             chunk.fileName,
           ),
         );
