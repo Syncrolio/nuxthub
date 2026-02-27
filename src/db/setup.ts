@@ -485,22 +485,34 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
       try {
         const copies: Promise<void>[] = [];
         for (const chunk of schemaBundle[0].chunks) {
-          copies.push(
-            new Promise((resolve, reject) =>
-              copyFile(
-                join(chunk.outDir, chunk.fileName),
-                join(
-                  physicalDbDir,
-                  nuxt.options.buildDir,
-                  "hub/db",
-                  chunk.outDir,
-                  chunk.fileName,
-                ),
-              )
-                .then(() => resolve)
-                .catch(() => reject),
+          // copies.push(
+          // new Promise((resolve, reject) =>
+
+          console.log("Copying file", {
+            from: join(chunk.outDir, chunk.fileName),
+            to: join(
+              physicalDbDir,
+              nuxt.options.buildDir,
+              "hub/db",
+              chunk.outDir,
+              chunk.fileName,
+            ),
+          });
+
+          await copyFile(
+            join(chunk.outDir, chunk.fileName),
+            join(
+              physicalDbDir,
+              nuxt.options.buildDir,
+              "hub/db",
+              chunk.outDir,
+              chunk.fileName,
             ),
           );
+          // .then(() => resolve)
+          // .catch(() => reject),
+          // ),
+          // );
         }
         await Promise.all(copies);
         // await copyFile(
@@ -547,22 +559,32 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
       for (const chunk of schemaBundle[0].chunks.filter((_chunk) =>
         _chunk.fileName.endsWith(".mjs"),
       )) {
-        copies.push(
-          new Promise((resolve, reject) =>
-            copyFile(
-              join(chunk.outDir, chunk.fileName),
-              join(
-                physicalDbDir,
-                nuxt.options.buildDir,
-                "hub/db",
-                chunk.outDir,
-                chunk.fileName,
-              ),
-            )
-              .then(() => resolve)
-              .catch(() => reject),
+        // copies.push(
+        //   new Promise((resolve, reject) =>
+        console.log("Copying file", {
+          from: join(chunk.outDir, chunk.fileName),
+          to: join(
+            physicalDbDir,
+            nuxt.options.buildDir,
+            "hub/db",
+            chunk.outDir,
+            chunk.fileName,
+          ),
+        });
+        await copyFile(
+          join(chunk.outDir, chunk.fileName),
+          join(
+            physicalDbDir,
+            nuxt.options.buildDir,
+            "hub/db",
+            chunk.outDir,
+            chunk.fileName,
           ),
         );
+        //       .then(() => resolve)
+        //       .catch(() => reject),
+        //   ),
+        // );
       }
       await Promise.all(copies);
       // await copyFile(
