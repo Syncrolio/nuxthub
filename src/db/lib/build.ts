@@ -97,7 +97,7 @@ export async function buildDatabaseSchema(
   const startTime = Date.now();
   relativeDir = relativeDir || buildDir;
   const entry = join(buildDir, "hub/db/schema.entry.ts");
-  await build({
+  const bundle = await build({
     entry: {
       schema: entry,
     },
@@ -127,4 +127,5 @@ export async function buildDatabaseSchema(
   consola.debug(
     `Database schema built successfully at \`${relative(relativeDir, join(buildDir, "hub/db/schema.mjs"))}\` (${duration}ms)`,
   );
+  return bundle;
 }

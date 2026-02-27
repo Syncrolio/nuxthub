@@ -469,7 +469,7 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
         filter: (template) =>
           template.filename.includes("hub/db/schema.entry.ts"),
       });
-      await buildDatabaseSchema(nuxt.options.buildDir, {
+      const schemaBundle = await buildDatabaseSchema(nuxt.options.buildDir, {
         relativeDir: nuxt.options.rootDir,
         alias: nuxt.options.alias,
       });
@@ -481,15 +481,34 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
         "@syncrolio",
         "db",
       );
+
       try {
-        await copyFile(
-          join(nuxt.options.buildDir, "hub/db/schema.mjs"),
-          join(physicalDbDir, "schema.mjs"),
-        );
-        await copyFile(
-          join(nuxt.options.buildDir, "hub/db/schema.d.mts"),
-          join(physicalDbDir, "schema.d.mts"),
-        );
+        const copies: Promise<void>[] = [];
+        for (const chunk of schemaBundle[0].chunks) {
+          copies.push(
+            new Promise(() => {
+              // Path relative to hub/db dir in .nuxt
+              const relativePath = relative(
+                join(nuxt.options.buildDir, "hub/db"),
+                chunk.outDir,
+              );
+
+              return copyFile(
+                join(chunk.outDir, chunk.fileName),
+                join(physicalDbDir, relativePath, chunk.fileName),
+              );
+            }),
+          );
+        }
+        await Promise.all(copies);
+        // await copyFile(
+        //   join(nuxt.options.buildDir, "hub/db/schema.mjs"),
+        //   join(physicalDbDir, "schema.mjs"),
+        // );
+        // await copyFile(
+        //   join(nuxt.options.buildDir, "hub/db/schema.d.mts"),
+        //   join(physicalDbDir, "schema.d.mts"),
+        // );
       } catch (error) {
         // Ignore errors during watch
       }
@@ -507,7 +526,7 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
 
   // Build schema types during prepare/dev/build, then copy to node_modules
   nuxt.hooks.hookOnce("app:templatesGenerated", async () => {
-    await buildDatabaseSchema(nuxt.options.buildDir, {
+    const schemaBundle = await buildDatabaseSchema(nuxt.options.buildDir, {
       relativeDir: nuxt.options.rootDir,
       alias: nuxt.options.alias,
     });
@@ -522,10 +541,30 @@ async function generateDatabaseSchema(nuxt: Nuxt, hub: ResolvedHubConfig) {
     await mkdir(physicalDbDir, { recursive: true });
 
     try {
-      await copyFile(
-        join(nuxt.options.buildDir, "hub/db/schema.mjs"),
-        join(physicalDbDir, "schema.mjs"),
-      );
+      const copies: Promise<void>[] = [];
+      for (const chunk of schemaBundle[0].chunks.filter((_chunk) =>
+        _chunk.fileName.endsWith(".mjs"),
+      )) {
+        copies.push(
+          new Promise(() => {
+            // Path relative to hub/db dir in .nuxt
+            const relativePath = relative(
+              join(nuxt.options.buildDir, "hub/db"),
+              chunk.outDir,
+            );
+
+            return copyFile(
+              join(chunk.outDir, chunk.fileName),
+              join(physicalDbDir, relativePath, chunk.fileName),
+            );
+          }),
+        );
+      }
+      await Promise.all(copies);
+      // await copyFile(
+      //   join(nuxt.options.buildDir, "hub/db/schema.mjs"),
+      //   join(physicalDbDir, "schema.mjs"),
+      // );
 
       // Copy the generated .d.mts file for TypeScript support
       // Try buildDir first, then fall back to .nuxt (for when buildDir is in .cache during build)
